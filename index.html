@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrimonio di Maria e Luigi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display (Classico/Elegante) e Montserrat (Moderno/Leggibile) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <!-- FontAwesome per Icone eleganti -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti per festeggiare all'invio -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    },
+                    colors: {
+                        wedding: {
+                            gold: '#D4AF37',
+                            goldLight: '#F3E5AB',
+                            rose: '#E8C5C8',
+                            darkGreen: '#2D4B39',
+                            cream: '#FAF6F0',
+                            charcoal: '#2D2D2D'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FAF6F0;
+            background-image: radial-gradient(rgba(45, 75, 57, 0.03) 1px, transparent 0), radial-gradient(rgba(45, 75, 57, 0.03) 1px, transparent 0);
+            background-size: 24px 24px;
+            background-position: 0 0, 12px 12px;
+        }
+        .wedding-card {
+            box-shadow: 0 15px 35px rgba(45, 75, 57, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+    </style>
+</head>
+<body class="font-sans text-wedding-charcoal min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header / Decorazione superiore -->
+    <header class="py-8 text-center relative overflow-hidden">
+        <div class="absolute inset-0 flex justify-between px-4 opacity-20 pointer-events-none select-none">
+            <!-- Rami decorativi SVG (sinistra) -->
+            <svg class="w-24 h-24 transform -scale-x-100 rotate-12" viewBox="0 0 100 100" fill="currentColor" class="text-wedding-darkGreen">
+                <path d="M10,90 Q30,60 70,80 T90,20 M30,65 Q25,50 15,55 M50,72 Q45,55 35,62 M70,60 Q75,40 65,42" stroke="#2D4B39" stroke-width="2" fill="none"/>
+            </svg>
+            <!-- Rami decorativi SVG (destra) -->
+            <svg class="w-24 h-24 rotate-12" viewBox="0 0 100 100" fill="currentColor" class="text-wedding-darkGreen">
+                <path d="M10,90 Q30,60 70,80 T90,20 M30,65 Q25,50 15,55 M50,72 Q45,55 35,62 M70,60 Q75,40 65,42" stroke="#2D4B39" stroke-width="2" fill="none"/>
+            </svg>
+        </div>
+        <p class="font-serif tracking-[0.2em] text-xs uppercase text-wedding-darkGreen opacity-80 mb-2">Save the Date</p>
+        <h1 class="font-serif text-3xl md:text-5xl text-wedding-darkGreen font-semibold">Maria & Luigi</h1>
+        <p class="font-serif italic text-sm text-wedding-gold mt-1">Si sposano il 13 / 06 / 2026</p>
+    </header>
+
+    <!-- Contenuto Principale -->
+    <main class="flex-grow flex items-center justify-center px-4 pb-12">
+        <div class="w-full max-w-2xl bg-white rounded-3xl p-6 md:p-10 wedding-card relative">
+            
+            <!-- Icona fedi nuziali decorative -->
+            <div class="flex justify-center mb-6">
+                <div class="w-12 h-12 rounded-full border border-wedding-gold flex items-center justify-center text-wedding-gold bg-wedding-cream">
+                    <i class="fa-solid fa-ring text-xl"></i>
+                </div>
+            </div>
+
+            <!-- Titolo Sezione -->
+            <div class="text-center mb-8">
+                <h2 class="font-serif text-2xl md:text-3xl text-wedding-darkGreen font-bold">Conferma la tua Presenza</h2>
+                <p class="text-xs md:text-sm text-gray-500 mt-2">Ti invitiamo a compilare il modulo sottostante entro il 15 Luglio 2026 per aiutarci ad organizzare al meglio il nostro giorno speciale.</p>
+            </div>
+
+            <!-- FORM PRINCIPALE -->
+            <form id="rsvpForm" class="space-y-6" onsubmit="handleFormSubmit(event)">
+                
+                <!-- Presenza (Sì / No) -->
+                <div>
+                    <label class="block text-xs uppercase tracking-wider font-semibold text-wedding-darkGreen mb-3 text-center">Ci sarai?</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="relative flex items-center justify-center p-4 border rounded-2xl cursor-pointer transition-all duration-300 hover:border-wedding-gold bg-white" id="presenceYesLabel">
+                            <input type="radio" name="presenza" value="si" checked class="sr-only" onchange="togglePresenza(this.value)">
+                            <div class="text-center">
+                                <i class="fa-regular fa-circle-check text-2xl mb-1 text-wedding-gold" id="iconYes"></i>
+                                <p class="font-semibold text-sm">Sì, ci sarò con gioia!</p>
+                            </div>
+                        </label>
+                        <label class="relative flex items-center justify-center p-4 border rounded-2xl cursor-pointer transition-all duration-300 hover:border-red-300 bg-white" id="presenceNoLabel">
+                            <input type="radio" name="presenza" value="no" class="sr-only" onchange="togglePresenza(this.value)">
+                            <div class="text-center">
+                                <i class="fa-regular fa-circle text-2xl mb-1 text-gray-300" id="iconNo"></i>
+                                <p class="font-semibold text-sm text-gray-500">No, purtroppo non posso</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Dati Anagrafici (Sempre visibili) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="nome" class="block text-xs uppercase tracking-wider font-semibold text-wedding-darkGreen mb-1">Nome *</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                            <input type="text" id="nome" name="nome" required 
+                                class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-wedding-gold focus:border-transparent outline-none transition-all duration-300"
+                                placeholder="Inserisci il tuo nome">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="cognome" class="block text-xs uppercase tracking-wider font-semibold text-wedding-darkGreen mb-1">Cognome *</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                            <input type="text" id="cognome" name="cognome" required 
+                                class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-wedding-gold focus:border-transparent outline-none transition-all duration-300"
+                                placeholder="Inserisci il tuo cognome">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEZIONE COMPLEMENTARE: Mostrata solo se si risponde SI -->
+                <div id="detailsSection" class="space-y-6 transition-all duration-500 ease-in-out opacity-100">
+                    
+                    <!-- Selezione Menù -->
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider font-semibold text-wedding-darkGreen mb-3">Preferenza Menù *</label>
+                        
+                        <!-- Griglia delle opzioni Menù -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                            
+                            <!-- Terra -->
+                            <label class="menu-card relative border border-gray-200 rounded-xl p-3 flex flex-col items-center justify-between text-center cursor-pointer hover:border-wedding-gold transition-all duration-300 bg-white" id="menuTerraLabel">
+                                <input type="radio" name="menu" value="Terra" checked class="sr-only" onchange="selectMenu('Terra')">
+                                <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-amber-700 mb-2">
+                                    <i class="fa-solid fa-drumstick-bite text-lg"></i>
+                                </div>
+                                <span class="font-semibold text-xs block">Terra</span>
+                                <span class="text-[10px] text-gray-400 mt-1">Carne e specialità locali</span>
+                            </label>
+
+                            <!-- Mare -->
+                            <label class="menu-card relative border border-gray-200 rounded-xl p-3 flex flex-col items-center justify-between text-center cursor-pointer hover:border-wedding-gold transition-all duration-300 bg-white" id="menuMareLabel">
+                                <input type="radio" name="menu" value="Mare" class="sr-only" onchange="selectMenu('Mare')">
+                                <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-2">
+                                    <i class="fa-solid fa-shrimp text-lg"></i>
+                                </div>
+                                <span class="font-semibold text-xs block">Mare</span>
+                                <span class="text-[10px] text-gray-400 mt-1">Delizie di pesce fresco</span>
+                            </label>
+
+                            <!-- Vegetariano -->
+                            <label class="menu-card relative border border-gray-200 rounded-xl p-3 flex flex-col items-center justify-between text-center cursor-pointer hover:border-wedding-gold transition-all duration-300 bg-white" id="menuVegLabel">
+                                <input type="radio" name="menu" value="Vegetariano" class="sr-only" onchange="selectMenu('Vegetariano')">
+                                <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 mb-2">
+                                    <i class="fa-solid fa-leaf text-lg"></i>
+                                </div>
+                                <span class="font-semibold text-xs block">Vegetariano</span>
+                                <span class="text-[10px] text-gray-400 mt-1">Senza carne o pesce</span>
+                            </label>
+
+                            <!-- Vegano -->
+                            <label class="menu-card relative border border-gray-200 rounded-xl p-3 flex flex-col items-center justify-between text-center cursor-pointer hover:border-wedding-gold transition-all duration-300 bg-white" id="menuVeganLabel">
+                                <input type="radio" name="menu" value="Vegano" class="sr-only" onchange="selectMenu('Vegano')">
+                                <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-700 mb-2">
+                                    <i class="fa-solid fa-seedling text-lg"></i>
+                                </div>
+                                <span class="font-semibold text-xs block">Vegano</span>
+                                <span class="text-[10px] text-gray-400 mt-1">100% vegetale</span>
+                            </label>
+
+                            <!-- Bambini -->
+                            <label class="menu-card relative border border-gray-200 rounded-xl p-3 flex flex-col items-center justify-between text-center cursor-pointer hover:border-wedding-gold transition-all duration-300 bg-white" id="menuBambiniLabel">
+                                <input type="radio" name="menu" value="Bambini" class="sr-only" onchange="selectMenu('Bambini')">
+                                <div class="w-10 h-10 rounded-full bg-yellow-50 flex items-center justify-center text-yellow-600 mb-2">
+                                    <i class="fa-solid fa-ice-cream text-lg"></i>
+                                </div>
+                                <span class="font-semibold text-xs block">Bambini</span>
+                                <span class="text-[10px] text-gray-400 mt-1">Per i nostri piccoli ospiti</span>
+                            </label>
+
+                        </div>
+                    </div>
+
+                    <!-- Intolleranze e Allergie -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="intolleranze" class="block text-xs uppercase tracking-wider font-semibold text-wedding-darkGreen">Intolleranze, Allergie o Esigenze Alimentari</label>
+                            <span class="text-[10px] text-gray-400 italic">Opzionale</span>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute top-3 left-3 text-gray-400">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                            <textarea id="intolleranze" name="intolleranze" rows="2" 
+                                class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-wedding-gold focus:border-transparent outline-none transition-all duration-300"
+                                placeholder="Es: Celiachia, allergia alle noci, intolleranza al lattosio..."></textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Bottone di Invio -->
+                <div class="pt-2">
+                    <button type="submit" id="submitBtn"
+                        class="w-full bg-wedding-darkGreen hover:bg-opacity-90 text-white font-medium py-4 px-6 rounded-xl transition-all duration-300 shadow-md flex items-center justify-center space-x-2 cursor-pointer">
+                        <span>Invia la tua risposta</span>
+                        <i class="fa-regular fa-paper-plane"></i>
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- PAGINA DI SUCCESSO (Nascosta inizialmente) -->
+            <div id="successState" class="hidden text-center py-10 space-y-6">
+                <div class="flex justify-center">
+                    <div class="w-20 h-20 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-500 text-4xl animate-bounce">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="font-serif text-3xl text-wedding-darkGreen font-bold" id="thankYouTitle">Grazie, risposta inviata!</h3>
+                    <p class="text-sm text-gray-600 max-w-md mx-auto" id="thankYouMsg">La tua conferma è stata registrata con successo. Non vediamo l'ora di festeggiare insieme!</p>
+                </div>
+                
+                <!-- Riepilogo Scelte -->
+                <div class="max-w-md mx-auto bg-wedding-cream rounded-2xl p-5 border border-wedding-gold/30 text-left space-y-3" id="summaryBox">
+                    <h4 class="font-serif font-bold text-wedding-darkGreen border-b border-wedding-gold/20 pb-2 flex items-center">
+                        <i class="fa-solid fa-clipboard-list mr-2"></i> Riepilogo Conferma
+                    </h4>
+                    <div class="text-xs space-y-2 text-gray-700">
+                        <p><strong>Invitato:</strong> <span id="summaryNome">Mario Rossi</span></p>
+                        <p><strong>Presenza:</strong> <span id="summaryPresenza" class="font-semibold text-emerald-700">Sì, sarò presente</span></p>
+                        <div id="summaryMenuRow">
+                            <p><strong>Menù Scelto:</strong> <span id="summaryMenu" class="font-semibold">Terra</span></p>
+                        </div>
+                        <div id="summaryIntolleranzeRow">
+                            <p><strong>Allergie / Intolleranze:</strong> <span id="summaryIntolleranze" class="italic">Nessuna segnalata</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex flex-col sm:flex-row justify-center gap-3">
+                    <button onclick="resetForm()" class="px-6 py-2 border border-gray-300 rounded-lg text-xs hover:bg-gray-50 transition duration-300">
+                        Compila per un altro ospite
+                    </button>
+                    <button onclick="toggleAdminPanel()" class="px-6 py-2 bg-wedding-cream border border-wedding-gold text-wedding-darkGreen rounded-lg text-xs hover:bg-wedding-gold/10 transition duration-300">
+                        Visualizza Lista Invitati (Admin)
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Bottone rapido per visualizzare il pannello admin integrato -->
+    <div class="text-center pb-8">
+        <button onclick="toggleAdminPanel()" class="text-xs text-wedding-darkGreen underline hover:text-wedding-gold transition duration-300 cursor-pointer">
+            <i class="fa-solid fa-lock mr-1"></i> Area Amministratore (Lista Invitati)
+        </button>
+    </div>
+
+    <!-- PANNELLO ADMIN MODALE / SLIDE IN (Nascosto di base) -->
+    <div id="adminPanel" class="fixed inset-0 bg-black/50 z-50 flex justify-end transition-opacity duration-300 opacity-0 pointer-events-none">
+        <!-- Overlay di chiusura cliccando fuori -->
+        <div class="absolute inset-0" onclick="toggleAdminPanel()"></div>
+        
+        <!-- Pannello Laterale -->
+        <div class="relative w-full max-w-2xl bg-white h-full shadow-2xl flex flex-col justify-between transform translate-x-full transition-transform duration-300 z-10" id="adminContent">
+            
+            <!-- Header Pannello -->
+            <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-wedding-cream">
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <h3 class="font-serif text-xl font-bold text-wedding-darkGreen flex items-center">
+                            <i class="fa-solid fa-user-shield mr-2"></i> Gestione Risposte RSVP
+                        </h3>
+                        <!-- Badge di stato del database -->
+                        <span id="dbStatusBadge" class="text-[10px] px-2 py-0.5 rounded-full font-medium">Inizializzazione...</span>
+                    </div>
+                    <p class="text-[11px] text-gray-500 mt-1" id="dbStatusDesc">Caricamento delle configurazioni del database...</p>
+                </div>
+                <button onclick="toggleAdminPanel()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Contenuto Lista Invitati -->
+            <div class="flex-grow overflow-y-auto p-6 space-y-6">
+                
+                <!-- Statistiche veloci -->
+                <div class="grid grid-cols-4 gap-2">
+                    <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-3 text-center">
+                        <span class="block text-2xl font-bold text-emerald-700" id="statPresenti">0</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-wider">Presenti</span>
+                    </div>
+                    <div class="bg-rose-50 border border-rose-100 rounded-xl p-3 text-center">
+                        <span class="block text-2xl font-bold text-rose-700" id="statAssenti">0</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-wider">Assenti</span>
+                    </div>
+                    <div class="bg-wedding-cream border border-wedding-gold/20 rounded-xl p-3 text-center col-span-2">
+                        <div class="flex justify-around items-center h-full">
+                            <div class="text-[10px] text-left text-gray-600 space-y-0.5">
+                                <div><i class="fa-solid fa-drumstick-bite text-amber-700 mr-1"></i> Terra: <strong id="statTerra">0</strong></div>
+                                <div><i class="fa-solid fa-shrimp text-blue-600 mr-1"></i> Mare: <strong id="statMare">0</strong></div>
+                            </div>
+                            <div class="text-[10px] text-left text-gray-600 space-y-0.5">
+                                <div><i class="fa-solid fa-leaf text-green-600 mr-1"></i> Veg: <strong id="statVeg">0</strong></div>
+                                <div><i class="fa-solid fa-ice-cream text-yellow-600 mr-1"></i> Bimb: <strong id="statBimb">0</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabella Invitati -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-serif font-bold text-wedding-darkGreen">Ospiti Registrati</h4>
+                        <div class="flex space-x-2">
+                            <button onclick="esportaCSV()" class="px-3 py-1.5 bg-green-600 text-white rounded-lg text-[10px] font-medium hover:bg-green-700 transition flex items-center">
+                                <i class="fa-solid fa-file-excel mr-1"></i> Esporta CSV
+                            </button>
+                            <button onclick="cancellaTutto()" class="px-3 py-1.5 bg-red-100 text-red-700 rounded-lg text-[10px] font-medium hover:bg-red-200 transition flex items-center">
+                                <i class="fa-solid fa-trash-can mr-1"></i> Svuota Database
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+                        <div class="overflow-x-auto max-h-[300px]">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-wedding-cream text-wedding-darkGreen border-b border-gray-100">
+                                        <th class="p-3 font-semibold">Nome</th>
+                                        <th class="p-3 font-semibold">Presenza</th>
+                                        <th class="p-3 font-semibold">Menù</th>
+                                        <th class="p-3 font-semibold">Intolleranze</th>
+                                        <th class="p-3 font-semibold">Azione</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="guestTableBody" class="divide-y divide-gray-100">
+                                    <!-- Popolato via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Pannello -->
+            <div class="p-6 border-t border-gray-100 bg-gray-50 flex justify-between items-center text-xs text-gray-500">
+                <p>Matrimonio Maria & Luigi &copy; 2026</p>
+                <button onclick="toggleAdminPanel()" class="px-4 py-2 bg-wedding-darkGreen text-white rounded-lg hover:bg-opacity-90 transition">
+                    Chiudi
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Alert Personalizzato (per evitare alert del browser) -->
+    <div id="customAlert" class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-wedding-darkGreen text-white px-6 py-3 rounded-xl shadow-lg z-50 transition-all duration-300 opacity-0 pointer-events-none flex items-center space-x-2">
+        <i class="fa-solid fa-info-circle text-wedding-gold"></i>
+        <span id="customAlertMsg">Messaggio</span>
+    </div>
+
+    <!-- JS Logic con supporto Firebase Cloud integrato -->
+    <script type="module">
+        // --- CONFIGURAZIONE DATABASE PER GITHUB PAGES ---
+        // Se vuoi mettere questo modulo su GitHub Pages ed avere il database online privato:
+        // 1. Crea un progetto gratuito su Firebase (console.firebase.google.com)
+        // 2. Crea un Database Firestore in modalità "Test" o con regole di lettura/scrittura aperte.
+        // 3. Copia le tue chiavi di configurazione e inseriscile in questa variabile "configurazionePersonale":
+        const configurazionePersonale = null; 
+        /* Esempio di configurazione reale da incollare sopra:
+        const configurazionePersonale = {
+            apiKey: "AIzaSy...",
+            authDomain: "matrimonio-rsvp.firebaseapp.com",
+            projectId: "matrimonio-rsvp",
+            storageBucket: "matrimonio-rsvp.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:1234:web:abcd"
+        };
+        */
+
+        // Import dei moduli Firebase via CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Variabili Globali del Database
+        let database = [];
+        let useCloud = false;
+        let db, auth, appId, unsubscribeRealtime;
+
+        // Inizializzazione della connessione
+        async function inizializzaDatabase() {
+            const statusBadge = document.getElementById('dbStatusBadge');
+            const statusDesc = document.getElementById('dbStatusDesc');
+
+            // 1. Verifica se siamo nell'ambiente di anteprima con chiavi pre-caricate
+            let configToUse = null;
+            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                configToUse = JSON.parse(__firebase_config);
+                appId = typeof __app_id !== 'undefined' ? __app_id : 'wedding-rsvp-default';
+            } 
+            // 2. Altrimenti verifica se l'utente ha inserito la sua configurazione personale per GitHub Pages
+            else if (configurazionePersonale) {
+                configToUse = configurazionePersonale;
+                appId = 'wedding-rsvp-user';
+            }
+
+            if (configToUse) {
+                try {
+                    // Avvio Firebase
+                    const app = initializeApp(configToUse);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+                    useCloud = true;
+
+                    // Autenticazione (Richiesta obbligatoria per scrivere su database Cloud protetti)
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+
+                    onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            statusBadge.className = "text-[10px] px-2 py-0.5 rounded-full font-medium bg-emerald-100 text-emerald-800";
+                            statusBadge.innerHTML = `<span class="inline-block w-1.5 h-1.5 mr-1 bg-emerald-500 rounded-full animate-pulse"></span> Cloud Online`;
+                            statusDesc.innerText = "Sincronizzato in tempo reale con il cloud del matrimonio.";
+                            attivaSincronizzazioneCloud();
+                        }
+                    });
+
+                } catch (error) {
+                    console.error("Errore inizializzazione Cloud:", error);
+                    passaAModalitaLocale("Errore connessione. Passato a memoria locale.");
+                }
+            } else {
+                // Nessuna chiave configurata -> Fallback locale automatico
+                passaAModalitaLocale("Pronto per il test locale (senza cloud).");
+            }
+        }
+
+        function passaAModalitaLocale(messaggio) {
+            useCloud = false;
+            database = JSON.parse(localStorage.getItem('wedding_rsvp')) || [];
+            
+            const statusBadge = document.getElementById('dbStatusBadge');
+            const statusDesc = document.getElementById('dbStatusDesc');
+            
+            statusBadge.className = "text-[10px] px-2 py-0.5 rounded-full font-medium bg-amber-100 text-amber-800";
+            statusBadge.innerHTML = `<span class="inline-block w-1.5 h-1.5 mr-1 bg-amber-500 rounded-full"></span> Modalità Provvisoria`;
+            statusDesc.innerHTML = `${messaggio} <br/><span class="text-wedding-gold font-semibold">Configura il tuo Firebase personale nel codice per usarlo su GitHub Pages!</span>`;
+            
+            caricaInvitati();
+        }
+
+        // Ascolto in tempo reale dei dati inseriti da TUTTI gli invitati
+        function attivaSincronizzazioneCloud() {
+            if (unsubscribeRealtime) unsubscribeRealtime();
+
+            // Percorso standardizzato sicuro e autorizzato dall'ambiente per salvare i dati pubblici condivisi
+            const rsvpsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'rsvps');
+
+            unsubscribeRealtime = onSnapshot(rsvpsCollection, (snapshot) => {
+                database = [];
+                snapshot.forEach((doc) => {
+                    database.push({ id: doc.id, ...doc.data() });
+                });
+                caricaInvitati();
+            }, (error) => {
+                console.error("Errore di sincronizzazione:", error);
+                passaAModalitaLocale("Errore permessi database.");
+            });
+        }
+
+        // Mostra alert personalizzato senza bloccare il browser
+        function showAlert(msg) {
+            const alertEl = document.getElementById('customAlert');
+            const alertMsg = document.getElementById('customAlertMsg');
+            alertMsg.innerText = msg;
+            alertEl.classList.remove('opacity-0', 'pointer-events-none');
+            alertEl.classList.add('opacity-100');
+            
+            setTimeout(() => {
+                alertEl.classList.add('opacity-0', 'pointer-events-none');
+                alertEl.classList.remove('opacity-100');
+            }, 3000);
+        }
+
+        // Gestione cambio Presenza (Sì / No)
+        function togglePresenza(value) {
+            const detailsSection = document.getElementById('detailsSection');
+            const yesLabel = document.getElementById('presenceYesLabel');
+            const noLabel = document.getElementById('presenceNoLabel');
+            const iconYes = document.getElementById('iconYes');
+            const iconNo = document.getElementById('iconNo');
+
+            if (value === 'si') {
+                detailsSection.style.display = 'block';
+                setTimeout(() => {
+                    detailsSection.style.opacity = '1';
+                }, 50);
+
+                yesLabel.classList.add('border-wedding-gold', 'bg-wedding-cream/30');
+                noLabel.classList.remove('border-red-300', 'bg-red-50/20');
+                
+                iconYes.className = "fa-solid fa-circle-check text-2xl mb-1 text-wedding-gold animate-pulse";
+                iconNo.className = "fa-regular fa-circle text-2xl mb-1 text-gray-300";
+
+                document.querySelectorAll('input[name="menu"]').forEach(input => {
+                    input.required = true;
+                });
+            } else {
+                detailsSection.style.opacity = '0';
+                setTimeout(() => {
+                    detailsSection.style.display = 'none';
+                }, 300);
+
+                yesLabel.classList.remove('border-wedding-gold', 'bg-wedding-cream/30');
+                noLabel.classList.add('border-red-300', 'bg-red-50/20');
+                
+                iconYes.className = "fa-regular fa-circle text-2xl mb-1 text-gray-300";
+                iconNo.className = "fa-solid fa-circle-xmark text-2xl mb-1 text-red-500 animate-pulse";
+
+                document.querySelectorAll('input[name="menu"]').forEach(input => {
+                    input.required = false;
+                });
+            }
+        }
+
+        // Grafica delle schede menù selezionate
+        function selectMenu(selectedVal) {
+            const cards = {
+                'Terra': document.getElementById('menuTerraLabel'),
+                'Mare': document.getElementById('menuMareLabel'),
+                'Vegetariano': document.getElementById('menuVegLabel'),
+                'Vegano': document.getElementById('menuVeganLabel'),
+                'Bambini': document.getElementById('menuBambiniLabel')
+            };
+
+            for (let val in cards) {
+                if (cards[val]) {
+                    cards[val].classList.remove('border-wedding-gold', 'bg-wedding-cream/40', 'ring-2', 'ring-wedding-gold/30');
+                    cards[val].classList.add('border-gray-200');
+                }
+            }
+
+            if (cards[selectedVal]) {
+                cards[selectedVal].classList.remove('border-gray-200');
+                cards[selectedVal].classList.add('border-wedding-gold', 'bg-wedding-cream/40', 'ring-2', 'ring-wedding-gold/30');
+            }
+        }
+
+        // Gestione invio modulo
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('rsvpForm');
+            const formData = new FormData(form);
+            
+            const nome = formData.get('nome').trim();
+            const cognome = formData.get('cognome').trim();
+            const presenza = formData.get('presenza');
+            const menu = presenza === 'si' ? formData.get('menu') : 'N/A';
+            const intolleranze = presenza === 'si' ? (formData.get('intolleranze').trim() || 'Nessuna') : 'N/A';
+
+            if (!nome || !cognome) {
+                showAlert("Per favore, compila il Nome e il Cognome.");
+                return;
+            }
+
+            const nuovoInvitato = {
+                nome: nome,
+                cognome: cognome,
+                presenza: presenza,
+                menu: menu,
+                intolleranze: intolleranze,
+                dataRegistrazione: new Date().toLocaleString('it-IT')
+            };
+
+            // Salva nel database corretto
+            if (useCloud) {
+                try {
+                    const rsvpsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'rsvps');
+                    await addDoc(rsvpsCollection, nuovoInvitato);
+                } catch (error) {
+                    console.error("Errore salvataggio Cloud:", error);
+                    showAlert("Errore di connessione al database online. Salvataggio locale temporaneo.");
+                    return;
+                }
+            } else {
+                nuovoInvitato.id = Date.now();
+                database.push(nuovoInvitato);
+                localStorage.setItem('wedding_rsvp', JSON.stringify(database));
+                caricaInvitati();
+            }
+
+            // Mostra coriandoli
+            if (presenza === 'si') {
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#D4AF37', '#E8C5C8', '#2D4B39', '#FAF6F0']
+                });
+            }
+
+            // Mostra Riepilogo nel box di ringraziamento
+            document.getElementById('summaryNome').innerText = `${nome} ${cognome}`;
+            if (presenza === 'si') {
+                document.getElementById('thankYouTitle').innerText = "Grazie, non vediamo l'ora!";
+                document.getElementById('thankYouMsg').innerText = "Abbiamo registrato la tua presenza online. Prepariamo gli abiti migliori per far festa!";
+                document.getElementById('summaryPresenza').innerText = "Sì, ci sarò con gioia!";
+                document.getElementById('summaryPresenza').className = "font-semibold text-emerald-700";
+                
+                document.getElementById('summaryMenuRow').style.display = 'block';
+                document.getElementById('summaryMenu').innerText = menu;
+                
+                document.getElementById('summaryIntolleranzeRow').style.display = 'block';
+                document.getElementById('summaryIntolleranze').innerText = intolleranze;
+            } else {
+                document.getElementById('thankYouTitle').innerText = "Ci mancherai!";
+                document.getElementById('thankYouMsg').innerText = "Ci dispiace che tu non riesca a venire. Ti terremo nel cuore durante questa giornata speciale.";
+                document.getElementById('summaryPresenza').innerText = "No, purtroppo non potrò esserci";
+                document.getElementById('summaryPresenza').className = "font-semibold text-rose-600";
+                
+                document.getElementById('summaryMenuRow').style.display = 'none';
+                document.getElementById('summaryIntolleranzeRow').style.display = 'none';
+            }
+
+            form.classList.add('hidden');
+            document.getElementById('successState').classList.remove('hidden');
+        }
+
+        // Resetta il modulo per una nuova compilazione
+        function resetForm() {
+            document.getElementById('rsvpForm').reset();
+            document.getElementById('successState').classList.add('hidden');
+            document.getElementById('rsvpForm').classList.remove('hidden');
+            togglePresenza('si');
+            selectMenu('Terra');
+        }
+
+        // Apertura / Chiusura Pannello Amministratore (Admin Panel)
+        function toggleAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            const content = document.getElementById('adminContent');
+            const isOpened = !panel.classList.contains('pointer-events-none');
+
+            if (isOpened) {
+                content.classList.add('translate-x-full');
+                panel.classList.add('opacity-0', 'pointer-events-none');
+            } else {
+                panel.classList.remove('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    content.classList.remove('translate-x-full');
+                }, 50);
+                caricaInvitati();
+            }
+        }
+
+        // Popola la tabella e le statistiche
+        function caricaInvitati() {
+            const tableBody = document.getElementById('guestTableBody');
+            tableBody.innerHTML = '';
+
+            let presenti = 0;
+            let assenti = 0;
+            let terra = 0;
+            let mare = 0;
+            let veg = 0;
+            let vegan = 0;
+            let bimb = 0;
+
+            if (database.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="p-6 text-center text-gray-400 italic">
+                            Nessun invitato registrato finora sul database.
+                        </td>
+                    </tr>
+                `;
+            } else {
+                database.forEach(invitato => {
+                    if (invitato.presenza === 'si') {
+                        presenti++;
+                        if (invitato.menu === 'Terra') terra++;
+                        else if (invitato.menu === 'Mare') mare++;
+                        else if (invitato.menu === 'Vegetariano') veg++;
+                        else if (invitato.menu === 'Vegano') vegan++;
+                        else if (invitato.menu === 'Bambini') bimb++;
+                    } else {
+                        assenti++;
+                    }
+
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-gray-50/50 transition";
+                    
+                    const badgePresenza = invitato.presenza === 'si' 
+                        ? `<span class="inline-block px-2 py-0.5 bg-green-50 text-green-700 rounded-full font-semibold text-[10px]">Sì</span>`
+                        : `<span class="inline-block px-2 py-0.5 bg-red-50 text-red-700 rounded-full font-semibold text-[10px]">No</span>`;
+
+                    const menuIcon = {
+                        'Terra': '<i class="fa-solid fa-drumstick-bite text-amber-700 mr-1"></i> Terra',
+                        'Mare': '<i class="fa-solid fa-shrimp text-blue-600 mr-1"></i> Mare',
+                        'Vegetariano': '<i class="fa-solid fa-leaf text-green-600 mr-1"></i> Vegetariano',
+                        'Vegano': '<i class="fa-solid fa-seedling text-emerald-700 mr-1"></i> Vegano',
+                        'Bambini': '<i class="fa-solid fa-ice-cream text-yellow-600 mr-1"></i> Bambini',
+                        'N/A': '<span class="text-gray-400">-</span>'
+                    }[invitato.menu] || invitato.menu;
+
+                    let intollText = invitato.intolleranze || 'Nessuna';
+                    if (intollText.length > 25) {
+                        intollText = intollText.substring(0, 22) + '...';
+                    }
+
+                    // Passiamo l'ID corretto (stringa per Firestore, numero per localStorage)
+                    const idDaPassare = typeof invitato.id === 'string' ? `'${invitato.id}'` : invitato.id;
+
+                    tr.innerHTML = `
+                        <td class="p-3 font-medium text-wedding-darkGreen">${invitato.nome} ${invitato.cognome}</td>
+                        <td class="p-3">${badgePresenza}</td>
+                        <td class="p-3 font-medium">${menuIcon}</td>
+                        <td class="p-3 text-gray-500 max-w-[120px] truncate" title="${invitato.intolleranze || 'Nessuna'}">${intollText}</td>
+                        <td class="p-3">
+                            <button onclick="cancellaOspite(${idDaPassare})" class="text-red-500 hover:text-red-700 transition cursor-pointer" title="Rimuovi">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            }
+
+            document.getElementById('statPresenti').innerText = presenti;
+            document.getElementById('statAssenti').innerText = assenti;
+            document.getElementById('statTerra').innerText = terra;
+            document.getElementById('statMare').innerText = mare;
+            document.getElementById('statVeg').innerText = veg + vegan;
+            document.getElementById('statBimb').innerText = bimb;
+        }
+
+        // Cancella un ospite specifico
+        async function cancellaOspite(id) {
+            if (confirm("Rimuovere questo invitato dalla lista?")) {
+                if (useCloud) {
+                    try {
+                        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'rsvps', id);
+                        await deleteDoc(docRef);
+                        showAlert("Ospite rimosso dal database online!");
+                    } catch (error) {
+                        console.error("Errore cancellazione:", error);
+                        showAlert("Impossibile cancellare l'elemento online.");
+                    }
+                } else {
+                    database = database.filter(inv => inv.id !== id);
+                    localStorage.setItem('wedding_rsvp', JSON.stringify(database));
+                    caricaInvitati();
+                    showAlert("Ospite rimosso!");
+                }
+            }
+        }
+
+        // Svuota completamente il database
+        async function cancellaTutto() {
+            if (confirm("Sei sicuro di voler svuotare l'intero database? Questa azione cancellerà DEFINITIVAMENTE tutte le risposte di tutti gli invitati.")) {
+                if (useCloud) {
+                    try {
+                        showAlert("Rimozione in corso... Attendere.");
+                        for (let inv of database) {
+                            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'rsvps', inv.id);
+                            await deleteDoc(docRef);
+                        }
+                        showAlert("Database online svuotato!");
+                    } catch (error) {
+                        console.error("Errore svuotamento totale:", error);
+                        showAlert("Errore durante lo svuotamento.");
+                    }
+                } else {
+                    database = [];
+                    localStorage.removeItem('wedding_rsvp');
+                    caricaInvitati();
+                    showAlert("Database locale svuotato.");
+                }
+            }
+        }
+
+        // Esportazione CSV
+        function esportaCSV() {
+            if (database.length === 0) {
+                showAlert("Nessun dato presente da esportare.");
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Nome;Cognome;Presenza;Menu;Intolleranze;Data Invio\n";
+
+            database.forEach(inv => {
+                const riga = [
+                    inv.nome,
+                    inv.cognome,
+                    inv.presenza === 'si' ? 'SI' : 'NO',
+                    inv.menu,
+                    (inv.intolleranze || 'Nessuna').replace(/;/g, ","),
+                    inv.dataRegistrazione
+                ].join(";");
+                csvContent += riga + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "invitati_matrimonio_rsvp.csv");
+            document.body.appendChild(link);
+
+            link.click();
+            document.body.removeChild(link);
+            showAlert("Esportazione CSV completata!");
+        }
+
+        // Esposizione funzioni al contesto globale di "window" (necessario perché usiamo script type="module")
+        window.togglePresenza = togglePresenza;
+        window.selectMenu = selectMenu;
+        window.handleFormSubmit = handleFormSubmit;
+        window.resetForm = resetForm;
+        window.toggleAdminPanel = toggleAdminPanel;
+        window.cancellaOspite = cancellaOspite;
+        window.cancellaTutto = cancellaTutto;
+        window.esportaCSV = esportaCSV;
+
+        // Esegui avvio
+        inizializzaDatabase();
+    </script>
+</body>
+</html>
