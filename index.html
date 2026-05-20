@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrimonio di Maria e Luigi</title>
+    <title>Matrimonio di Luigi e Maria</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Playfair Display (Classico/Elegante) e Montserrat (Moderno/Leggibile) -->
+    <!-- Google Fonts: Playfair Display e Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
@@ -55,17 +55,16 @@
     <!-- Header / Decorazione superiore -->
     <header class="py-8 text-center relative overflow-hidden">
         <div class="absolute inset-0 flex justify-between px-4 opacity-20 pointer-events-none select-none">
-            <!-- Rami decorativi SVG (sinistra) -->
-            <svg class="w-24 h-24 transform -scale-x-100 rotate-12" viewBox="0 0 100 100" fill="currentColor" class="text-wedding-darkGreen">
+            <!-- Rami decorativi SVG -->
+            <svg class="w-24 h-24 transform -scale-x-100 rotate-12" viewBox="0 0 100 100" fill="currentColor">
                 <path d="M10,90 Q30,60 70,80 T90,20 M30,65 Q25,50 15,55 M50,72 Q45,55 35,62 M70,60 Q75,40 65,42" stroke="#2D4B39" stroke-width="2" fill="none"/>
             </svg>
-            <!-- Rami decorativi SVG (destra) -->
-            <svg class="w-24 h-24 rotate-12" viewBox="0 0 100 100" fill="currentColor" class="text-wedding-darkGreen">
+            <svg class="w-24 h-24 rotate-12" viewBox="0 0 100 100" fill="currentColor">
                 <path d="M10,90 Q30,60 70,80 T90,20 M30,65 Q25,50 15,55 M50,72 Q45,55 35,62 M70,60 Q75,40 65,42" stroke="#2D4B39" stroke-width="2" fill="none"/>
             </svg>
         </div>
         <p class="font-serif tracking-[0.2em] text-xs uppercase text-wedding-darkGreen opacity-80 mb-2">Save the Date</p>
-        <h1 class="font-serif text-3xl md:text-5xl text-wedding-darkGreen font-semibold">Maria & Luigi</h1>
+        <h1 class="font-serif text-3xl md:text-5xl text-wedding-darkGreen font-semibold">Luigi & Maria</h1>
         <p class="font-serif italic text-sm text-wedding-gold mt-1">Si sposano il 13 / 06 / 2026</p>
     </header>
 
@@ -110,7 +109,7 @@
                     </div>
                 </div>
 
-                <!-- Dati Anagrafici (Sempre visibili) -->
+                <!-- Dati Anagrafici -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="nome" class="block text-xs uppercase tracking-wider font-semibold text-wedding-darkGreen mb-1">Nome *</label>
@@ -270,19 +269,17 @@
         </div>
     </main>
 
-    <!-- Bottone rapido per visualizzare il pannello admin integrato -->
+    <!-- Bottone rapido per il pannello admin -->
     <div class="text-center pb-8">
         <button onclick="toggleAdminPanel()" class="text-xs text-wedding-darkGreen underline hover:text-wedding-gold transition duration-300 cursor-pointer">
             <i class="fa-solid fa-lock mr-1"></i> Area Amministratore (Lista Invitati)
         </button>
     </div>
 
-    <!-- PANNELLO ADMIN MODALE / SLIDE IN (Nascosto di base) -->
+    <!-- PANNELLO ADMIN MODALE / SLIDE IN -->
     <div id="adminPanel" class="fixed inset-0 bg-black/50 z-50 flex justify-end transition-opacity duration-300 opacity-0 pointer-events-none">
-        <!-- Overlay di chiusura cliccando fuori -->
         <div class="absolute inset-0" onclick="toggleAdminPanel()"></div>
         
-        <!-- Pannello Laterale -->
         <div class="relative w-full max-w-2xl bg-white h-full shadow-2xl flex flex-col justify-between transform translate-x-full transition-transform duration-300 z-10" id="adminContent">
             
             <!-- Header Pannello -->
@@ -302,14 +299,14 @@
                 </button>
             </div>
 
-            <!-- SCHERMATA LOGIN ADMIN (Nascosta se loggato) -->
+            <!-- SCHERMATA LOGIN ADMIN -->
             <div id="adminLoginScreen" class="flex-grow flex flex-col justify-center items-center p-8 space-y-6">
                 <div class="w-16 h-16 rounded-full bg-wedding-cream border border-wedding-gold flex items-center justify-center text-wedding-gold text-2xl">
                     <i class="fa-solid fa-key"></i>
                 </div>
                 <div class="text-center space-y-2">
                     <h4 class="font-serif text-lg font-bold text-wedding-darkGreen">Inserisci la Password</h4>
-                    <p class="text-xs text-gray-400 max-w-xs">Inserisci la chiave di sicurezza autorizzata per visualizzare la lista degli invitati e le preferenze del menù.</p>
+                    <p class="text-xs text-gray-400 max-w-xs">Inserisci la chiave di sicurezza autorizzata per visualizzare la lista degli invitati.</p>
                 </div>
                 <div class="w-full max-w-xs space-y-4">
                     <div class="relative">
@@ -317,10 +314,9 @@
                             <i class="fa-solid fa-lock"></i>
                         </div>
                         <input type="password" id="adminPasswordInput" 
-                            class="w-full pl-10 pr-10 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-wedding-gold focus:border-transparent outline-none text-center"
+                            class="w-full pl-10 pr-10 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-wedding-gold focus:border-transparent outline-none text-center font-sans tracking-wide"
                             placeholder="••••••••"
                             onkeydown="handleAdminKeydown(event)">
-                        <!-- Bottone per mostrare/nascondere la password -->
                         <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-wedding-darkGreen transition">
                             <i id="passwordToggleIcon" class="fa-regular fa-eye"></i>
                         </button>
@@ -333,10 +329,10 @@
                 </div>
             </div>
 
-            <!-- CONTENUTO LISTA INVITATI (Nascosto se NON loggato) -->
+            <!-- CONTENUTO LISTA INVITATI -->
             <div id="adminDataScreen" class="hidden flex-grow overflow-y-auto p-6 space-y-6">
                 
-                <!-- Statistiche veloci -->
+                <!-- Statistiche -->
                 <div class="grid grid-cols-4 gap-2">
                     <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-3 text-center">
                         <span class="block text-2xl font-bold text-emerald-700" id="statPresenti">0</span>
@@ -360,7 +356,7 @@
                     </div>
                 </div>
 
-                <!-- Tabella Invitati -->
+                <!-- Tabella -->
                 <div class="space-y-3">
                     <div class="flex items-center justify-between font-serif">
                         <h4 class="font-bold text-wedding-darkGreen">Ospiti Registrati</h4>
@@ -400,10 +396,10 @@
             <div class="p-6 border-t border-gray-100 bg-gray-50 flex justify-between items-center text-xs text-gray-500">
                 <p>Matrimonio Maria & Luigi &copy; 2026</p>
                 <div class="flex space-x-2">
-                    <button id="logoutBtn" onclick="logoutAdmin()" class="hidden px-3 py-1 bg-gray-200 text-gray-700 hover:bg-gray-300 rounded transition">
+                    <button id="logoutBtn" onclick="logoutAdmin()" class="hidden px-3 py-1 bg-gray-200 text-gray-700 hover:bg-gray-300 rounded transition font-sans">
                         Disconnetti
                     </button>
-                    <button onclick="toggleAdminPanel()" class="px-4 py-2 bg-wedding-darkGreen text-white rounded-lg hover:bg-opacity-90 transition">
+                    <button onclick="toggleAdminPanel()" class="px-4 py-2 bg-wedding-darkGreen text-white rounded-lg hover:bg-opacity-90 transition font-sans">
                         Chiudi
                     </button>
                 </div>
@@ -412,18 +408,18 @@
         </div>
     </div>
 
-    <!-- Alert Personalizzato (per evitare alert del browser) -->
+    <!-- Alert Personalizzato -->
     <div id="customAlert" class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-wedding-darkGreen text-white px-6 py-3 rounded-xl shadow-lg z-50 transition-all duration-300 opacity-0 pointer-events-none flex items-center space-x-2">
         <i class="fa-solid fa-info-circle text-wedding-gold"></i>
         <span id="customAlertMsg">Messaggio</span>
     </div>
 
-    <!-- JS Logic con supporto Firebase Cloud integrato -->
+    <!-- JS Logic - Corretto per richiedere l'autenticazione anonima obbligatoria su Firestore -->
     <script type="module">
-        // Import dei moduli Firebase via CDN
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        // Import moduli Firebase Firestore + moduli Auth (indispensabili per soddisfare le regole di sicurezza di Firestore)
+        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, collection, onSnapshot, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- CONFIGURAZIONE DATABASE UFFICIALE DI LUIGI & MARIA ---
         const configurazionePersonale = {
@@ -436,14 +432,15 @@
             measurementId: "G-SVTJCBJ6H5"
         };
 
-        // HASH CRITTOGRAFICI DI SICUREZZA (Corrispondono a "LuigiMaria2026")
-        const ADMIN_PASSWORD_HASH_1 = "b47313a436940d5885f0ef7bf4f4cc7f39422a55095e09f5817c18c0df98a979"; // "LuigiMaria2026"
-        const ADMIN_PASSWORD_HASH_2 = "898ff944065660fb1e55047f07092109848f4be2a72bbf6b864a66e44b98c8c2"; // "luigimaria2026"
+        // Password codificata Base64 ("LuigiMaria2026" e "luigimaria2026")
+        const CHIAVE_ADMIN_1 = "THVpZ2lNYXJpYTIwMjY=";
+        const CHIAVE_ADMIN_2 = "bHVpZ2ltYXJpYTIwMjY=";
 
         // Variabili Globali del Database
         let database = [];
         let useCloud = false;
         let db, auth, appId, unsubscribeRealtime;
+        let user = null;
 
         // Inizializzazione della connessione
         async function inizializzaDatabase() {
@@ -460,57 +457,51 @@
 
             if (configToUse) {
                 try {
-                    // Avvio Firebase
-                    const app = initializeApp(configToUse);
-                    auth = getAuth(app);
+                    // Evitiamo conflitti controllando se l'istanza è già attiva
+                    const app = getApps().length === 0 ? initializeApp(configToUse) : getApp();
                     db = getFirestore(app);
+                    auth = getAuth(app);
                     useCloud = true;
 
-                    // Autenticazione anonima obbligatoria per scrivere su database Cloud protetti
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
+                    // Autenticazione prima delle query per soddisfare i permessi del database
+                    const initAuth = async () => {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            try {
+                                return await signInWithCustomToken(auth, __initial_auth_token);
+                            } catch (e) {
+                                console.error("Custom token auth failed, trying anonymous:", e);
+                                return await signInAnonymously(auth);
+                            }
+                        } else {
+                            return await signInAnonymously(auth);
+                        }
+                    };
 
-                    onAuthStateChanged(auth, async (user) => {
+                    const authResult = await initAuth();
+                    user = authResult.user;
+
+                    onAuthStateChanged(auth, (u) => {
+                        user = u;
                         if (user) {
                             statusBadge.className = "text-[10px] px-2 py-0.5 rounded-full font-medium bg-emerald-100 text-emerald-800";
                             statusBadge.innerHTML = `<span class="inline-block w-1.5 h-1.5 mr-1 bg-emerald-500 rounded-full animate-pulse"></span> Cloud Online`;
-                            statusDesc.innerText = "Sincronizzato in tempo reale con il cloud del matrimonio.";
-                            
-                            // 1. Inizializza o carica la password direttamente su Firebase Cloud
-                            await inizializzaPasswordSuFirebase();
-
-                            // 2. Sincronizza i dati degli invitati
+                            statusDesc.innerText = "Sincronizzato direttamente con il database.";
                             attivaSincronizzazioneCloud();
+                        } else {
+                            passaAModalitaLocale("Utente non autenticato. Controlla la console.");
                         }
                     });
 
                 } catch (error) {
                     console.error("Errore inizializzazione Cloud:", error);
-                    passaAModalitaLocale("Errore connessione. Passato a memoria locale.");
+                    if (error.code === 'auth/admin-restricted-operation') {
+                        passaAModalitaLocale("Abilita l'accesso 'Anonimo' (Anonymous) in Firebase -> Authentication -> Sign-in method!");
+                    } else {
+                        passaAModalitaLocale("Errore: " + error.message);
+                    }
                 }
             } else {
                 passaAModalitaLocale("Pronto per il test locale (senza cloud).");
-            }
-        }
-
-        // Se non è ancora presente un record di configurazione su Firebase, lo creiamo in automatico
-        async function inizializzaPasswordSuFirebase() {
-            if (!useCloud) return;
-            try {
-                // Utilizza percorsi rigidamente conformi alle regole di sicurezza Firebase per i file personali/pubblici
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'config', 'admin');
-                const docSnap = await getDoc(docRef);
-                if (!docSnap.exists()) {
-                    await setDoc(docRef, {
-                        passwordHash: ADMIN_PASSWORD_HASH_1 // "LuigiMaria2026"
-                    });
-                    console.log("Password iniziale configurata con successo su Firebase.");
-                }
-            } catch (error) {
-                console.error("Errore durante il setup della password sul Cloud:", error);
             }
         }
 
@@ -523,13 +514,14 @@
             
             statusBadge.className = "text-[10px] px-2 py-0.5 rounded-full font-medium bg-amber-100 text-amber-800";
             statusBadge.innerHTML = `<span class="inline-block w-1.5 h-1.5 mr-1 bg-amber-500 rounded-full"></span> Modalità Locale`;
-            statusDesc.innerHTML = `${messaggio}`;
+            statusDesc.innerHTML = `<span class="text-rose-600 font-semibold text-[10px] block max-w-xs truncate">${messaggio}</span>`;
             
             caricaInvitati();
         }
 
-        // Ascolto in tempo reale dei dati inseriti da TUTTI gli invitati
+        // Ascolto in tempo reale dei dati inseriti da TUTTI gli invitati con controllo utente attivo
         function attivaSincronizzazioneCloud() {
+            if (!user) return;
             if (unsubscribeRealtime) unsubscribeRealtime();
 
             const rsvpsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'rsvps');
@@ -542,96 +534,8 @@
                 caricaInvitati();
             }, (error) => {
                 console.error("Errore di sincronizzazione:", error);
-                passaAModalitaLocale("Errore permessi database.");
+                passaAModalitaLocale("Verifica regole di sicurezza di Firestore.");
             });
-        }
-
-        // Algoritmo SHA-256 nativo stateless (risolve definitivamente il bug della memoria residua)
-        function calcolaSHA256Nativo(ascii) {
-            function rightRotate(value, amount) {
-                return (value >>> amount) | (value << (32 - amount));
-            }
-            
-            var mathPow = Math.pow;
-            var maxWord = mathPow(2, 32);
-            var lengthProperty = 'length';
-            var i, j;
-            var result = '';
-
-            var words = [];
-            var asciiLength = ascii[lengthProperty] * 8;
-            
-            var hash = [];
-            var k = [];
-            var primeCounter = 0;
-
-            var isComposite = {};
-            for (var candidate = 2; primeCounter < 64; candidate++) {
-                if (!isComposite[candidate]) {
-                    for (i = 0; i < 313; i += candidate) {
-                        isComposite[i] = 1;
-                    }
-                    hash[primeCounter] = (mathPow(candidate, .5) * maxWord) | 0;
-                    k[primeCounter++] = (mathPow(candidate, 1 / 3) * maxWord) | 0;
-                }
-            }
-            
-            ascii += '\x80';
-            while (ascii[lengthProperty] % 64 - 56) ascii += '\x00';
-            for (i = 0; i < ascii[lengthProperty]; i++) {
-                var charCode = ascii.charCodeAt(i);
-                if (charCode >> 8) return; 
-                words[i >> 2] |= charCode << ((3 - i % 4) * 8);
-            }
-            words[words[lengthProperty]] = ((asciiLength / maxWord) | 0);
-            words[words[lengthProperty]] = (asciiLength | 0);
-            
-            var h0 = hash[0], h1 = hash[1], h2 = hash[2], h3 = hash[3], h4 = hash[4], h5 = hash[5], h6 = hash[6], h7 = hash[7];
-            
-            for (i = 0; i < words[lengthProperty]; i += 16) {
-                var w = [];
-                for (j = 0; j < 16; j++) w[j] = words[i + j];
-                for (j = 16; j < 64; j++) {
-                    var s0 = rightRotate(w[j - 15], 7) ^ rightRotate(w[j - 15], 18) ^ (w[j - 15] >>> 3);
-                    var s1 = rightRotate(w[j - 2], 17) ^ rightRotate(w[j - 2], 19) ^ (w[j - 2] >>> 10);
-                    w[j] = (w[j - 16] + s0 + w[j - 7] + s1) | 0;
-                }
-                
-                var a = h0, b = h1, c = h2, d = h3, e = h4, f = h5, g = h6, h = h7;
-                for (j = 0; j < 64; j++) {
-                    var S1 = rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25);
-                    var ch = (e & f) ^ ((~e) & g);
-                    var temp1 = (h + S1 + ch + k[j] + w[j]) | 0;
-                    var S0 = rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22);
-                    var maj = (a & b) ^ (a & c) ^ (b & c);
-                    var temp2 = (S0 + maj) | 0;
-                    
-                    h = g;
-                    g = f;
-                    f = e;
-                    e = (d + temp1) | 0;
-                    d = c;
-                    c = b;
-                    b = a;
-                    a = (temp1 + temp2) | 0;
-                }
-                
-                h0 = (h0 + a) | 0;
-                h1 = (h1 + b) | 0;
-                h2 = (h2 + c) | 0;
-                h3 = (h3 + d) | 0;
-                h4 = (h4 + e) | 0;
-                h5 = (h5 + f) | 0;
-                h6 = (h6 + g) | 0;
-                h7 = (h7 + h) | 0;
-            }
-            
-            var hWords = [h0, h1, h2, h3, h4, h5, h6, h7];
-            for (i = 0; i < 8; i++) {
-                var hex = (hWords[i] >>> 0).toString(16);
-                result += ('00000000' + hex).slice(-8);
-            }
-            return result;
         }
 
         // Mostra/Nasconde la visibilità del testo della password
@@ -654,8 +558,8 @@
             }
         }
 
-        // Gestione dell'accesso al pannello Admin con verifica Firebase integrata
-        async function submitAdminLogin() {
+        // Gestione dell'accesso al pannello Admin con verifica locale super stabile
+        function submitAdminLogin() {
             const passwordInput = document.getElementById('adminPasswordInput');
             const passwordInserita = passwordInput.value.trim();
             
@@ -664,42 +568,9 @@
                 return;
             }
 
-            // Calcolo dell'hash locale
-            const hashInserito = calcolaSHA256Nativo(passwordInserita);
-            let autenticato = false;
+            const inputCodificato = btoa(passwordInserita);
 
-            if (useCloud) {
-                try {
-                    // Controlla la password salvata sul Cloud Firestore
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'config', 'admin');
-                    const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
-                        const cloudHash = docSnap.data().passwordHash;
-                        // Verifica case-insensitive per evitare disagi agli utenti da mobile
-                        if (hashInserito === cloudHash || hashInserito === calcolaSHA256Nativo(passwordInserita.toLowerCase())) {
-                            autenticato = true;
-                        }
-                    } else {
-                        // Fallback nel caso in cui Firebase non abbia ancora scritto il record config iniziale
-                        if (hashInserito === ADMIN_PASSWORD_HASH_1 || hashInserito === ADMIN_PASSWORD_HASH_2) {
-                            autenticato = true;
-                        }
-                    }
-                } catch (error) {
-                    console.error("Errore lettura password da Firebase:", error);
-                    // Fallback locale di emergenza in caso di problemi di rete
-                    if (hashInserito === ADMIN_PASSWORD_HASH_1 || hashInserito === ADMIN_PASSWORD_HASH_2) {
-                        autenticato = true;
-                    }
-                }
-            } else {
-                // Se siamo offline o in locale
-                if (hashInserito === ADMIN_PASSWORD_HASH_1 || hashInserito === ADMIN_PASSWORD_HASH_2) {
-                    autenticato = true;
-                }
-            }
-
-            if (autenticato) {
+            if (inputCodificato === CHIAVE_ADMIN_1 || inputCodificato === CHIAVE_ADMIN_2) {
                 sessionStorage.setItem('admin_rsvp_authenticated', 'true');
                 aggiornaVistaAdmin();
                 passwordInput.value = "";
@@ -841,8 +712,11 @@
                 dataRegistrazione: new Date().toLocaleString('it-IT')
             };
 
-            // Salva nel database corretto
             if (useCloud) {
+                if (!user) {
+                    showAlert("Errore: impossibile salvare. Non sei ancora autenticato.");
+                    return;
+                }
                 try {
                     const rsvpsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'rsvps');
                     await addDoc(rsvpsCollection, nuovoInvitato);
@@ -858,7 +732,6 @@
                 caricaInvitati();
             }
 
-            // Mostra coriandoli
             if (presenza === 'si') {
                 confetti({
                     particleCount: 150,
@@ -1012,6 +885,7 @@
 
             if (confirm("Rimuovere questo invitato dalla lista?")) {
                 if (useCloud) {
+                    if (!user) return;
                     try {
                         const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'rsvps', id);
                         await deleteDoc(docRef);
@@ -1036,6 +910,7 @@
 
             if (confirm("Sei sicuro di voler svuotare l'intero database? Questa azione cancellerà DEFINITIVAMENTE tutte le risposte di tutti gli invitati.")) {
                 if (useCloud) {
+                    if (!user) return;
                     try {
                         showAlert("Rimozione in corso... Attendere.");
                         for (let inv of database) {
